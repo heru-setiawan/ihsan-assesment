@@ -7,19 +7,12 @@ import (
 )
 
 type service struct {
-	Host string
 	Port uint16
 
 	Name string
 }
 
 func (s *service) loadFromEnv(defaultValue service) {
-	osHost := os.Getenv("SERVICE_HOST")
-	if osHost == "" {
-		osHost = defaultValue.Host
-	}
-	s.Host = osHost
-
 	osPort := os.Getenv("SERVICE_PORT")
 	if osPort == "" {
 		osPort = fmt.Sprintf("%d", defaultValue.Port)

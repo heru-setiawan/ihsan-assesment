@@ -2,6 +2,7 @@ package databases
 
 import (
 	"assesment/pkg/configs"
+	"assesment/pkg/logs"
 	"fmt"
 
 	"gorm.io/driver/postgres"
@@ -40,4 +41,18 @@ func ConnectDB(config configs.Config) (*gorm.DB, error) {
 	}
 
 	return db, nil
+}
+
+func Migrate(conn *gorm.DB, log logs.Logger, config configs.Config, models ...interface{}) {
+	if err := conn.Exec("CREATE DATABASE " + config.Database.Database).Error; err != nil {
+		log.Warn(map[string]any{"error": err}, "can't initialize database")
+	}
+
+	if err := conn.Exec("CREATE SCHEMA " + config.Database.Schema + " AUTHORIZATION " + config.Database.User).Error; err != nil {
+		log.Warn(map[string]any{"error": err}, "can't initialize schema")
+	}
+
+	if err := conn.AutoMigrate(models...); err != nil {
+		log.Warn(map[string]any{"error": err}, "can't initialize table")
+	}
 }

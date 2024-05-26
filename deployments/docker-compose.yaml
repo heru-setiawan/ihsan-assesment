@@ -1,0 +1,55 @@
+name: junior-assesment
+
+networks:
+  assesment:
+    name: assesment
+    driver: bridge
+
+services:
+  postgres:
+    image: postgres
+    container_name: assesment-junior-postgres
+    networks:
+      - assesment
+    ports:
+      - ${DB_PORT:-5432}:${DB_PORT:-5432}
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-P4ssw0rdSRC}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_DB: ${DB_DATABASE:-assesment}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: ../
+      dockerfile: ./builds/golang/dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+    container_name: assesment-junior-app
+    networks:
+      - assesment
+    ports:
+      - ${SERVICE_PORT:-8000}:${SERVICE_PORT:-8000}
+    volumes:
+      - ../:/app
+    environment:
+      SERVICE_PORT: ${SERVICE_PORT:-8000}
+      SERVICE_NAME: ${SERVICE_NAME:-junior-assesment}
+
+      DB_DRIVER: ${DB_DRIVER:-postgres}
+      DB_HOST: ${DB_HOST:-assesment-junior-postgres}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-P4ssw0rdSRC}
+      DB_DATABASE: ${DB_DATABASE:-assesment}
+      DB_SCHEMA: ${DB_SCHEMA:-junior}
+
+      LOG_LEVEL: ${LOG_LEVEL:-4}
+      LOG_TIMESTAMP_FORMAT: ${LOG_TIMESTAMP_FORMAT:-2006-01-02 15:04:05.000}
+      LOG_TIMESTAMP_FULL: ${LOG_TIMESTAMP_FULL:-true}
+      LOG_FORCE_COLORS: ${LOG_FORCE_COLORS:-true}

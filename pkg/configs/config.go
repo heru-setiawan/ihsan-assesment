@@ -9,7 +9,6 @@ type Config struct {
 
 func (c *Config) LoadFromEnv() {
 	c.Service.loadFromEnv(service{
-		Host: "",
 		Port: 8000,
 		Name: "assesment",
 	})
@@ -22,7 +21,7 @@ func (c *Config) LoadFromEnv() {
 	})
 
 	c.Database.loadFromEnv(database{
-		Driver:   "postgre",
+		Driver:   "postgres",
 		Host:     "localhost",
 		Port:     5432,
 		User:     "postgres",

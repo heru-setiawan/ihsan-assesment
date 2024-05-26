@@ -7,7 +7,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func NewLogger(config configs.Config, serviceName string) (logger *Logger) {
+func NewLogger(config configs.Config) (logger *Logger) {
 	log := logrus.New()
 
 	formatter := new(logrus.TextFormatter)
@@ -19,7 +19,7 @@ func NewLogger(config configs.Config, serviceName string) (logger *Logger) {
 	log.SetFormatter(formatter)
 
 	return &Logger{
-		log: log.WithField("service", serviceName),
+		log: log.WithField("service", config.Service.Name),
 	}
 }
 

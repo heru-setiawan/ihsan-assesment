@@ -1,0 +1,1072 @@
+{
+	"info": {
+		"_postman_id": "114b4f7a-a55a-4823-baab-1994177e9426",
+		"name": "Account",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27912951"
+	},
+	"item": [
+		{
+			"name": "Nasabah",
+			"item": [
+				{
+					"name": "Daftar Nasabah Baru",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nik\": \"3102064401910006\",\n  \"nama\": \"nasabah baru\",\n  \"no_hp\": \"+6281289429672\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/daftar",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"daftar"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "pedaftaran nasabah berhasil",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nik\": \"3102064401910006\",\n  \"nama\": \"nasabah baru\",\n  \"no_hp\": \"+6281289429672\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/daftar",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"daftar"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"data\": {\n    \"no_rekening\": \"55682371546871513134\",\n    \"saldo\": 0\n  }\n}"
+						},
+						{
+							"name": "default",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nik\": \"3102064401910006\",\n  \"nama\": \"nasabah baru\",\n  \"no_hp\": \"+6281289429672\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/daftar",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"daftar"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"pendaftaran nasabah gagal\"\n}"
+						},
+						{
+							"name": "validasi gagal - nik kosong",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nama\": \"nasabah baru\",\n  \"no_hp\": \"+6281289429672\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/daftar",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"daftar"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"nik tidak boleh kosong\"\n}"
+						},
+						{
+							"name": "validasi gagal - nama kosong",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nik\": \"3102064401910006\",\n  \"no_hp\": \"+6281289429672\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/daftar",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"daftar"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"nama tidak boleh kosong\"\n}"
+						},
+						{
+							"name": "validasi gagal - no hp kosong",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nik\": \"3102064401910006\",\n  \"nama\": \"nasabah baru\",\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/daftar",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"daftar"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"no hp tidak boleh kosong\"\n}"
+						},
+						{
+							"name": "validasi gagal - nik sudah ada",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nik\": \"3102064401910006\",\n  \"nama\": \"nasabah baru\",\n  \"no_hp\": \"+6281289429672\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/daftar",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"daftar"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"nik sudah digunakan\"\n}"
+						},
+						{
+							"name": "validasi gagal - no hp sudah ada",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nik\": \"3102064401910006\",\n  \"nama\": \"nasabah baru\",\n  \"no_hp\": \"+6281289429672\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/daftar",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"daftar"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"no hp sudah digunakan\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Rekening",
+			"item": [
+				{
+					"name": "Tabung",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"no_rekening\": \"55682371546871513134\",\n  \"nominal\": 10000\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tabung",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tabung"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "tabung berhasil",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"no_rekening\": \"55682371546871513134\",\n  \"nominal\": 10000\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tabung",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tabung"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"data\": {\n    \"no_rekening\": \"55682371546871513134\",\n    \"saldo\": 10000\n  }\n}"
+						},
+						{
+							"name": "default",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"no_rekening\": \"55682371546871513134\",\n  \"nominal\": 10000\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tabung",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tabung"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"transaksi gagal\"\n}"
+						},
+						{
+							"name": "validasi - no rekening kosong",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nominal\": 10000\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tabung",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tabung"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"no rekening tidak boleh kosong\"\n}"
+						},
+						{
+							"name": "validasi - nominal kurang dari 0",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"no_rekening\": \"55682371546871513134\",\n  \"nominal\": -10000\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tabung",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tabung"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"nominal harus lebih dari 0\"\n}"
+						},
+						{
+							"name": "validasi - rekening tidak ditemukan",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"no_rekening\": \"55682371546871513134\",\n  \"nominal\": 10000\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tabung",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tabung"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"rekening tidak ditemukan\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Tarik",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"no_rekening\": \"55682371546871513134\",\n  \"nominal\": 10000\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tarik",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tarik"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "tarik berhasil",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"no_rekening\": \"55682371546871513134\",\n  \"nominal\": 10000\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tarik",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tarik"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"data\": {\n    \"no_rekening\": \"55682371546871513134\",\n    \"saldo\": 0\n  }\n}"
+						},
+						{
+							"name": "default",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"no_rekening\": \"55682371546871513134\",\n  \"nominal\": 10000\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tarik",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tarik"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"transaksi gagal\"\n}"
+						},
+						{
+							"name": "validasi - no rekening kosong",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nominal\": 10000\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tarik",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tarik"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"no rekening tidak boleh kosong\"\n}"
+						},
+						{
+							"name": "validasi - nominal kurang dari 0",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"no_rekening\": \"55682371546871513134\",\n  \"nominal\": -10000\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tarik",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tarik"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"nominal harus lebih dari 0\"\n}"
+						},
+						{
+							"name": "validasi - saldo tidak cukup",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"no_rekening\": \"55682371546871513134\",\n  \"nominal\": 100000\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tarik",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tarik"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"saldo tidak cukup\"\n}"
+						},
+						{
+							"name": "validasi - rekening tidak ditemukan",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"no_rekening\": \"55682371546871513134\",\n  \"nominal\": 10000\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/tarik",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"tarik"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"rekening tidak ditemukan\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Cek Saldo",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/saldo/:no_rekening",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"saldo",
+								":no_rekening"
+							],
+							"variable": [
+								{
+									"key": "no_rekening",
+									"value": "dolore eu culpalabor",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "cek saldo berhasil",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/saldo/:no_rekening",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"saldo",
+										":no_rekening"
+									],
+									"variable": [
+										{
+											"key": "no_rekening"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"data\": {\n    \"no_rekening\": \"55682371546871513134\",\n    \"saldo\": 0\n  }\n}"
+						},
+						{
+							"name": "cek saldo gagal",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/saldo/:no_rekening",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"saldo",
+										":no_rekening"
+									],
+									"variable": [
+										{
+											"key": "no_rekening"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"rekening tidak ditemukan\"\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8000"
+		}
+	]
+}
