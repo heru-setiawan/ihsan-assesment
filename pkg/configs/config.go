@@ -1,38 +1,54 @@
 package configs
 
+import "github.com/joho/godotenv"
+
 type Config struct {
-	Log       log
-	Database  database
-	Telemetry telemetry
-	Service   service
+	HashBcrypt         Bcrypt
+	DatabaseRedis      Redis
+	DatabasePostgres   Postgres
+	LogLogrus          Logrus
+	TraceTelemetry     Telemetry
+	ServiceTransaction TransactionService
 }
 
-func (c *Config) LoadFromEnv() {
-	c.Service.loadFromEnv(service{
-		Host: "",
-		Port: 8000,
-		Name: "assesment",
-	})
+func (cfg *Config) LoadFromEnvFile(files ...string) error {
+	if len(files) != 0 {
+		for _, file := range files {
+			if err := godotenv.Load(file); err != nil {
+				return err
+			}
+		}
+	} else {
+		godotenv.Load()
+	}
 
-	c.Log.loadFromEnv(log{
-		Level:           4,
-		FormatTimestamp: "2006-01-02 15:04:05.000",
-		FullTimestamp:   true,
-		ForceColors:     true,
-	})
+	if err := cfg.DatabaseRedis.loadEnv(); err != nil {
+		return err
+	}
 
-	c.Database.loadFromEnv(database{
-		Driver:   "postgre",
-		Host:     "localhost",
-		Port:     5432,
-		User:     "postgres",
-		Password: "",
-		Database: "assesment",
-		Schema:   "test",
-	})
+	if err := cfg.DatabasePostgres.loadEnv(); err != nil {
+		return err
+	}
 
-	c.Telemetry.loadFromEnv(telemetry{
-		Host: "localhost",
-		Port: 4318,
-	})
+	if err := cfg.LogLogrus.loadEnv(); err != nil {
+		return err
+	}
+
+	if err := cfg.TraceTelemetry.loadEnv(); err != nil {
+		return err
+	}
+
+	if err := cfg.ServiceTransaction.loadEnv(); err != nil {
+		return err
+	}
+
+	if err := cfg.ServiceTransaction.loadEnv(); err != nil {
+		return err
+	}
+
+	if err := cfg.HashBcrypt.loadEnv(); err != nil {
+		return err
+	}
+
+	return nil
 }

@@ -1,55 +1,67 @@
 package configs
 
 import (
-	"fmt"
 	"os"
 	"strconv"
+
+	"github.com/fatih/structs"
 )
 
-type log struct {
-	Level           int
-	FormatTimestamp string
-	FullTimestamp   bool
-	ForceColors     bool
+type Logrus struct {
+	Level           int    `default:"4"`
+	FormatTimestamp string `default:"2006-01-02 15:04:05"`
+	FullTimestamp   bool   `default:"true"`
+	ForceColors     bool   `default:"true"`
 }
 
-func (l *log) loadFromEnv(defaultValue log) {
-	osLevel := os.Getenv("LOG_LEVEL")
+func (cfg *Logrus) defaultValue(key string) string {
+	s := structs.New(cfg)
+	field := s.Field(key)
+	if field == nil {
+		return ""
+	}
+	return field.Tag("default")
+}
+
+func (cfg *Logrus) loadEnv() error {
+	osLevel := os.Getenv("LOG_LOGRUS_LEVEL")
 	if osLevel == "" {
-		osLevel = fmt.Sprintf("%d", defaultValue.Level)
+		osLevel = cfg.defaultValue("Level")
 	}
 
 	level, err := strconv.Atoi(osLevel)
 	if err != nil {
-		level = defaultValue.Level
+		return err
 	}
-	l.Level = level
+	cfg.Level = level
 
-	osFormatTimestamp := os.Getenv("LOG_TIMESTAMP_FORMAT")
+	osFormatTimestamp := os.Getenv("LOG_LOGRUS_TIMESTAMP_FORMAT")
 	if osFormatTimestamp == "" {
-		osFormatTimestamp = defaultValue.FormatTimestamp
+		osFormatTimestamp = cfg.defaultValue("FormatTimestamp")
 	}
-	l.FormatTimestamp = osFormatTimestamp
+	cfg.FormatTimestamp = osFormatTimestamp
 
-	osFullTimestamp := os.Getenv("LOG_TIMESTAMP_FULL")
+	osFullTimestamp := os.Getenv("LOG_LOGRUS_TIMESTAMP_FULL")
 	if osFullTimestamp == "" {
-		osFullTimestamp = strconv.FormatBool(defaultValue.FullTimestamp)
+		osFullTimestamp = cfg.defaultValue("FullTimestamp")
 	}
 
 	fullTimestamp, err := strconv.ParseBool(osFullTimestamp)
 	if err != nil {
-		fullTimestamp = defaultValue.FullTimestamp
+		return err
 	}
-	l.FullTimestamp = fullTimestamp
+	cfg.FullTimestamp = fullTimestamp
 
-	osForceColors := os.Getenv("LOG_FORCE_COLORS")
+	osForceColors := os.Getenv("LOG_LOGRUS_FORCE_COLORS")
 	if osForceColors == "" {
-		osForceColors = strconv.FormatBool(defaultValue.ForceColors)
+		osForceColors = cfg.defaultValue("ForceColors")
 	}
 
 	ForceColors, err := strconv.ParseBool(osForceColors)
 	if err != nil {
-		ForceColors = defaultValue.ForceColors
+		return err
 	}
-	l.ForceColors = ForceColors
+	cfg.ForceColors = ForceColors
+
+	return nil
 }

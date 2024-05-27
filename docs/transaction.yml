@@ -1,0 +1,178 @@
+openapi: '3.0.2'
+info:
+  title: 'Transaction Service'
+  version: '1.0'
+servers:
+  - url: http://localhost:8000
+paths:
+  /daftar:
+    post:
+      summary: "pendaftaran rekening baru"
+      requestBody:
+        $ref: "#/components/requestBodies/daftar_rekening"
+      responses:
+        '200':
+          $ref: "#/components/responses/daftar_200"
+        '400':
+          $ref: "#/components/responses/daftar_400"
+
+  /tabung:
+    post:
+      summary: "tabung saldo rekening"
+      requestBody:
+        $ref: "#/components/requestBodies/tabung"
+      responses:
+        '200':
+          $ref: "#/components/responses/tabung_200"
+        '400':
+          $ref: "#/components/responses/tabung_400"
+
+  /tarik:
+    post:
+      summary: "tarik saldo rekening"
+      requestBody:
+        $ref: "#/components/requestBodies/tarik"
+      responses:
+        '200':
+          $ref: "#/components/responses/tarik_200"
+        '400':
+          $ref: "#/components/responses/tarik_400"
+
+components:
+  schemas:
+    rekening:
+      type: object
+      properties:
+        no_rekening:
+          type: string
+        saldo:
+          type: number
+          format: currency
+    default_response:
+      type: object
+      properties:
+        data:
+          oneOf:
+            - type: array
+              items:
+                type: object
+                nullable: true
+                oneOf:
+                  - $ref: "#/components/schemas/rekening"
+            - type: object
+              nullable: true
+              oneOf:
+                - $ref: "#/components/schemas/rekening"
+        message:
+          type: string
+
+  requestBodies:
+    daftar_rekening:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/rekening"
+          example:
+            pin: "12345"
+    tabung:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/rekening"
+          example:
+            no_rekening: "55682371546871513134"
+            nominal: 10000
+    tarik:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/rekening"
+          example:
+            no_rekening: "55682371546871513134"
+            nominal: 10000
+  
+  responses:
+    daftar_200:
+      description: "pedaftaran rekening berhasil"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/default_response"
+          example:
+            data:
+              no_rekening: "55682371546871513134"
+              saldo: 0
+    daftar_400:
+      description: "pendaftaran rekening gagal"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/default_response"
+          examples:
+            "default":
+              value:
+                message: "pendaftaran rekening gagal"
+            "validasi gagal - pin kosong":
+              value:
+                message: "nik tidak boleh kosong" 
+    tabung_200:
+      description: "tabung berhasil"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/default_response"
+          example:
+            data:
+              no_rekening: "55682371546871513134"
+              saldo: 10000
+    tabung_400:
+      description: "tabung gagal"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/default_response"
+          examples:
+            "default":
+              value:
+                message: "transaksi gagal"
+            "validasi - no rekening kosong":
+              value:
+                message: "no rekening tidak boleh kosong"
+            "validasi - nominal kurang dari 0":
+              value:
+                message: "nominal harus lebih dari 0"
+            "validasi - rekening tidak ditemukan":
+              value:
+                message: "rekening tidak ditemukan"
+    tarik_200:
+      description: "tarik berhasil"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/default_response"
+          example:
+            data:
+              no_rekening: "55682371546871513134"
+              saldo: 0
+    tarik_400:
+      description: "tarik gagal"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/default_response"
+          examples:
+            "default":
+              value:
+                message: "transaksi gagal"
+            "validasi - no rekening kosong":
+              value:
+                message: "no rekening tidak boleh kosong"
+            "validasi - nominal kurang dari 0":
+              value:
+                message: "nominal harus lebih dari 0"
+            "validasi - saldo tidak cukup":
+              value:
+                message: "saldo tidak cukup"
+            "validasi - rekening tidak ditemukan":
+              value:
+                message: "rekening tidak ditemukan"

@@ -1,0 +1,153 @@
+name: middle-assesment
+
+networks:
+  assesment:
+    name: assesment
+    driver: bridge
+
+services:
+  transaction:
+    build:
+      context: ../
+      dockerfile: ./builds/golang/transaction.dockerfile
+    container_name: service-transaction
+    networks:
+      - assesment
+    ports:
+      - ${SERVICE_TRANSACTION_PORT:-8000}:${SERVICE_TRANSACTION_PORT:-8000}
+    volumes:
+      - ../:/app
+    environment:
+      SERVICE_TRANSACTION_PORT: ${SERVICE_TRANSACTION_PORT:-8000}
+
+      LOG_LOGRUS_LEVEL: ${LOG_LOGRUS_LEVEL:-4}
+      LOG_LOGRUS_TIMESTAMP_FORMAT: ${LOG_LOGRUS_TIMESTAMP_FORMAT:-"2006-01-02 15:04:05"}
+      LOG_LOGRUS_TIMESTAMP_FULL: ${LOG_LOGRUS_TIMESTAMP_FULL:-true}
+      LOG_LOGRUS_FORCE_COLORS: ${LOG_LOGRUS_FORCE_COLORS:-true}
+
+      DB_POSTGRES_HOST: ${DB_POSTGRES_HOST:-postgres}
+      DB_POSTGRES_PORT: ${DB_POSTGRES_PORT:-5432}
+      DB_POSTGRES_USER: ${DB_POSTGRES_USER:-postgres}
+      DB_POSTGRES_PASSWORD: ${DB_POSTGRES_PASSWORD:-P4ssw0rdSRC}
+      DB_POSTGRES_DATABASE: ${DB_POSTGRES_DATABASE:-assesment}
+      DB_POSTGRES_SCHEMA: ${DB_POSTGRES_SCHEMA:-transaction}
+
+      DB_REDIS_HOST: ${DB_REDIS_HOST:-redis}
+      DB_REDIS_PORT: ${DB_REDIS_PORT:-6379}
+      DB_REDIS_USER: ${DB_REDIS_USER:-default}
+      DB_REDIS_PASSWORD: ${DB_REDIS_PASSWORD}
+
+      TRACE_TELEMETRY_HOST: ${TRACE_TELEMETRY_HOST:-otel-collector}
+      TRACE_TELEMETRY_PORT: ${TRACE_TELEMETRY_PORT:-4318}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      otel-collector:
+        condition: service_started
+      mutation:
+        condition: service_started
+    
+  mutation:
+    build:
+      context: ../
+      dockerfile: ./builds/golang/mutation.dockerfile
+    container_name: service-mutation
+    networks:
+      - assesment
+    volumes:
+      - ../:/app
+    environment:
+      LOG_LOGRUS_LEVEL: ${LOG_LOGRUS_LEVEL:-4}
+      LOG_LOGRUS_TIMESTAMP_FORMAT: ${LOG_LOGRUS_TIMESTAMP_FORMAT:-"2006-01-02 15:04:05"}
+      LOG_LOGRUS_TIMESTAMP_FULL: ${LOG_LOGRUS_TIMESTAMP_FULL:-true}
+      LOG_LOGRUS_FORCE_COLORS: ${LOG_LOGRUS_FORCE_COLORS:-true}
+
+      DB_POSTGRES_HOST: ${DB_POSTGRES_HOST:-postgres}
+      DB_POSTGRES_PORT: ${DB_POSTGRES_PORT:-5432}
+      DB_POSTGRES_USER: ${DB_POSTGRES_USER:-postgres}
+      DB_POSTGRES_PASSWORD: ${DB_POSTGRES_PASSWORD:-P4ssw0rdSRC}
+      DB_POSTGRES_DATABASE: ${DB_POSTGRES_DATABASE:-assesment}
+      DB_POSTGRES_SCHEMA: ${DB_POSTGRES_SCHEMA:-transaction}
+
+      DB_REDIS_HOST: ${DB_REDIS_HOST:-redis}
+      DB_REDIS_PORT: ${DB_REDIS_PORT:-6379}
+      DB_REDIS_USER: ${DB_REDIS_USER:-default}
+      DB_REDIS_PASSWORD: ${DB_REDIS_PASSWORD}
+
+      TRACE_TELEMETRY_HOST: ${TRACE_TELEMETRY_HOST:-otel-collector}
+      TRACE_TELEMETRY_PORT: ${TRACE_TELEMETRY_PORT:-4318}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      otel-collector:
+        condition: service_started
+
+  postgres:
+    image: postgres
+    container_name: db-postgres
+    networks:
+      - assesment
+    ports:
+      - ${DB_POSTGRES_PORT:-5432}:5432
+    environment:
+      POSTGRES_PASSWORD: ${DB_POSTGRES_PASSWORD:-P4ssw0rdSRC}
+      POSTGRES_USER: ${DB_POSTGRES_USER:-postgres}
+      POSTGRES_DB: ${DB_POSTGRES_DATABASE:-assesment}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis
+    container_name: db-redis
+    ports:
+      - ${DB_REDIS_PORT:-6379}:6379
+    networks:
+      - assesment
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  jaeger-all-in-one:
+    image: jaegertracing/all-in-one:latest
+    container_name: tracer-jaeger
+    restart: always
+    ports:
+      - "16686:16686"
+      - "14268"
+      - "14250"
+    networks:
+      - assesment
+
+  prometheus:
+    image: prom/prometheus
+    container_name: tracer-prometheus
+    volumes:
+      - ../builds/prometheus/config.yml:/etc/prometheus/prometheus.yml
+    command: --config.file=/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+    networks:
+      - assesment
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib
+    container_name: tracer-otel-collector
+    volumes:
+      - ../builds/telemetry/config.yml:/etc/otelcol/otel-collector-config.yml
+    command: --config /etc/otelcol/otel-collector-config.yml
+    ports:
+      - 4318:4318
+      - 8889:8889
+    networks:
+      - assesment
+    depends_on:
+      - jaeger-all-in-one

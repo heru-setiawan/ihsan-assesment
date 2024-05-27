@@ -7,26 +7,26 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func NewLogger(config configs.Config, serviceName string) (logger *Logger) {
+func getCaller() (file, function string, line int) {
+	pc, file, line, _ := runtime.Caller(3)
+	function = runtime.FuncForPC(pc).Name()
+	return
+}
+
+func NewLogger(config configs.Logrus, serviceName string) (logger *Logger) {
 	log := logrus.New()
 
 	formatter := new(logrus.TextFormatter)
-	formatter.TimestampFormat = config.Log.FormatTimestamp
-	formatter.FullTimestamp = config.Log.FullTimestamp
-	formatter.ForceColors = config.Log.ForceColors
+	formatter.TimestampFormat = config.FormatTimestamp
+	formatter.FullTimestamp = config.FullTimestamp
+	formatter.ForceColors = config.ForceColors
 
-	log.SetLevel(logrus.Level(config.Log.Level))
+	log.SetLevel(logrus.Level(config.Level))
 	log.SetFormatter(formatter)
 
 	return &Logger{
 		log: log.WithField("service", serviceName),
 	}
-}
-
-func getCaller() (file, function string, line int) {
-	pc, file, line, _ := runtime.Caller(3)
-	function = runtime.FuncForPC(pc).Name()
-	return
 }
 
 type Logger struct {

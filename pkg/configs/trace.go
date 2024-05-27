@@ -7,11 +7,12 @@ import (
 	"github.com/fatih/structs"
 )
 
-type TransactionService struct {
-	Port uint16 `default:"8000"`
+type Telemetry struct {
+	Host string `default:"localhost"`
+	Port uint16 `default:"6831"`
 }
 
-func (cfg *TransactionService) defaultValue(key string) string {
+func (cfg *Telemetry) defaultValue(key string) string {
 	s := structs.New(cfg)
 	field := s.Field(key)
 	if field == nil {
@@ -20,8 +21,14 @@ func (cfg *TransactionService) defaultValue(key string) string {
 	return field.Tag("default")
 }
 
-func (cfg *TransactionService) loadEnv() error {
-	osPort := os.Getenv("SERVICE_TRANSACTION_PORT")
+func (cfg *Telemetry) loadEnv() error {
+	osHost := os.Getenv("TRACE_TELEMETRY_HOST")
+	if osHost == "" {
+		osHost = cfg.defaultValue("Host")
+	}
+	cfg.Host = osHost
+
+	osPort := os.Getenv("TRACE_TELEMETRY_PORT")
 	if osPort == "" {
 		osPort = cfg.defaultValue("Port")
 	}
